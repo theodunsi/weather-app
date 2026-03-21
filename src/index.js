@@ -3,14 +3,13 @@ import "./style.css";
 const form = document.getElementById("weather-form");
 const submit = document.getElementById("submit");
 const input = document.getElementById("search");
+const content = document.getElementById("main-content");
 
 submit.addEventListener("click", function(e) {
     e.preventDefault();
     const value = input.value;
     getWeatherData(value);
 })
-
-console.log("JavaScript is working!");
 
 function processWeatherData(data) {
     const currentTemp = data.currentConditions.temp;
@@ -28,8 +27,8 @@ function processWeatherData(data) {
         location: location,
         humidity: humidity,
         icon: icon,
-        high: highTemp,
-        low: lowTemp
+        highTemp: highTemp,
+        lowTemp: lowTemp
     };
 }
 
@@ -46,7 +45,26 @@ async function getWeatherData(location) {
         if (!response.ok) {
             alert("something went wrong!")
         }
-        else { console.log(weatherData); }
+        else {
+            content.innerHTML="";
+            const temp = document.createElement("p");
+            const conditions = document.createElement("p");
+            const location = document.createElement("p");
+            const humidity = document.createElement("p");
+            const icon = document.createElement("p");
+            const highTemp = document.createElement("p");
+            const lowTemp = document.createElement("p");
+
+            temp.textContent = `Temperature: ${weatherData.temperature}°F`;
+            conditions.textContent = `Conditions: ${weatherData.conditions}`;
+            location.textContent = `Location: ${weatherData.location}`;
+            humidity.textContent = `Humidity: ${weatherData.humidity}%`;
+            icon.textContent = weatherData.icon;
+            highTemp.textContent = `HighTemp: ${weatherData.highTemp}°F`;
+            lowTemp.textContent = `LowTemp: ${weatherData.lowTemp}°F`;
+
+            content.append( temp, conditions, location, humidity, icon, highTemp, lowTemp);
+        }
     }
     catch(error) {
         console.error("Error fetching weather:", error);
