@@ -4,12 +4,42 @@ const form = document.getElementById("weather-form");
 const submit = document.getElementById("submit");
 const input = document.getElementById("search");
 const content = document.getElementById("main-content");
+const toggle = document.getElementById("toggle");
+let currentUnit = "F";
+let tempElement = null;
+let highTempElement = null;
+let lowTempElement = null;
+let storedWeatherData = null;
+
 
 submit.addEventListener("click", function(e) {
     e.preventDefault();
     const value = input.value;
     getWeatherData(value);
 })
+
+toggle.addEventListener("click", () => {
+    let convertedTemp;
+    let convertedHighTemp;
+    let convertedLowTemp;
+
+    if (currentUnit === "F") {
+        convertedTemp = (((storedWeatherData.temperature - 32) * 5/9).toFixed(1));
+        convertedHighTemp = (((storedWeatherData.highTemp - 32) * 5/9).toFixed(1));
+        convertedLowTemp = (((storedWeatherData.lowTemp - 32) * 5/9).toFixed(1));
+        currentUnit = "C"
+    }
+    else {  
+        convertedTemp = storedWeatherData.temperature; 
+        convertedHighTemp = storedWeatherData.highTemp;  
+        convertedLowTemp = storedWeatherData.lowTemp;   
+        currentUnit = "F";    
+    }
+
+    tempElement.textContent = `Temperature: ${convertedTemp}°${currentUnit}`;
+    highTempElement.textContent = `HighTemp: ${convertedHighTemp}°${currentUnit}`;
+    lowTempElement.textContent = `LowTemp: ${convertedLowTemp}°${currentUnit}`;
+});
 
 function processWeatherData(data) {
     const currentTemp = data.currentConditions.temp;
@@ -41,6 +71,7 @@ async function getWeatherData(location) {
         const response = await fetch(url);
         const data = await response.json();
         const weatherData = processWeatherData(data);
+        storedWeatherData = weatherData;
 
         if (!response.ok) {
             alert("something went wrong!")
@@ -54,6 +85,10 @@ async function getWeatherData(location) {
             const icon = document.createElement("p");
             const highTemp = document.createElement("p");
             const lowTemp = document.createElement("p");
+
+            tempElement = temp; 
+            highTempElement = highTemp;
+            lowTempElement = lowTemp;
 
             temp.textContent = `Temperature: ${weatherData.temperature}°F`;
             conditions.textContent = `Conditions: ${weatherData.conditions}`;
