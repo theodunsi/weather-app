@@ -1,0 +1,157 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: "inter", sans-serif;
+
+    /* Default background */
+    background-image: url('./assets/images/day.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    padding: 20px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    align-items: center;
+    justify-content: center;
+}
+
+body.day {
+    background-image: url('./assets/images/day.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body.night {
+    background-image: url('./assets/images/night.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body.rain {
+    background-image: url('./assets/images/rain.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body.snow {
+    background-image: url('./assets/images/snow.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#main-content {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+input {
+    width: 320px;
+    height: 40px;
+    padding: 16px;
+    border-radius: 100px;
+    border-style: solid;
+    border-color: rgb(255, 255, 255, 0.12);
+    background-color: rgb(255, 255, 255, 0.16);
+    color: rgb(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+input::placeholder {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgb(255, 255, 255, 0.8);
+}
+
+input:valid {
+    border-color: rgba(255, 255, 255, 0.10);
+    background-color: rgb(255, 255, 255, 0.16);
+    font-size: 16px;
+    font-weight: 300;
+    color: rgb(255, 255, 255, 0.7);
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#high-low {
+    display: flex;
+    gap: 8px;
+}
+
+p.h1 {
+    font-size: 60px;
+    font-weight: 100;
+    color: white;
+    letter-spacing: -3%;
+}
+
+p.h2 {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgb(255, 255, 255, 0.7);
+}
+
+p.h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(255, 255, 255, 1);
+}
+
+p.icon {
+    font-size: 50px;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(255, 255, 255, 0.7);
+    max-width: 280px;
+    text-align: center;
+}
+
+p.info {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(255, 255, 255, 0.6);
+    max-width: 280px;
+    text-align: center;
+}
+
+#extra-info {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 16px;
+    gap: 16px;
+}
+
+.info {
+    width: 240px;
+    display: flex;
+    /* padding: 12px; */
+    justify-content: space-between;
+    /* background-color: rgb(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.10);
+    border-radius: 8px;
+    backdrop-filter: blur(8px); */
+}

@@ -9,12 +9,21 @@
 </head>
 <body>
     <form id="weather-form">
-        <input id="search" type="search" placeholder="Search Location">
-        <button id="submit" type="submit"> Search </button>
+        <input id="search" type="search" placeholder="Search Your City...">
     </form>
 
-    <div id="main-content"> </div>
+    <div id="loading-state">
+        <p class="h1">--</p>
+    </div>
 
-    <button id="toggle" aria-pressed="false">Toggle</button>
+    <div id="main-content"> 
+        <div id="header"> 
+            <div id="high-low"> </div>
+        </div>
+
+        <div id="extra-info"> </div>
+    </div>
+
+    <button id="toggle" aria-pressed="false" style="display: none;"> Toggle </button>
 </body>
 </html>
