@@ -1,8 +1,4 @@
 import "./style.css";
-// import humidityIcon from "./assets/icons/humidity.svg";
-// import pressureIcon from "./assets/icons/pressure.svg";
-// import uvIndexIcon from "./assets/icons/uvIndex.svg";
-// import windIcon from "./assets/icons/wind.svg";
 
 
 const form = document.getElementById("weather-form");
@@ -13,7 +9,9 @@ const toggle = document.getElementById("toggle");
 const header = document.getElementById("header");
 const highLow = document.getElementById("high-low");
 const loadingState = document.getElementById("loading-state");
+const center = document.getElementById("center");
 const extraInfo = document.getElementById("extra-info");
+const forecastInfo = document.getElementById("forecast-info");
 
 let currentUnit = "F";
 let tempElement = null;
@@ -38,13 +36,6 @@ const iconMap = {
     "wind": "💨"
 };
 
-// Add icon mapping for info cards
-// const infoIconMap = {
-//     humidity: humidityIcon,
-//     wind: windIcon, 
-//     pressure: pressureIcon,
-//     uvIndex: uvIndexIcon
-// };
 
 form.addEventListener("submit", function(e) {
     e.preventDefault();
@@ -70,9 +61,30 @@ toggle.addEventListener("click", () => {
         currentUnit = "F";    
     }
 
+    if (currentUnit === "C") {
+        toggle.classList.add("celsius");
+    } else {
+        toggle.classList.remove("celsius");
+    }
+
     tempElement.textContent = `${convertedTemp}°${currentUnit}`;
     highTempElement.textContent = `H:${convertedHighTemp}°${currentUnit}`;
     lowTempElement.textContent = `L:${convertedLowTemp}°${currentUnit}`;
+
+    // Update forecast temperatures too
+    const forecastRows = document.querySelectorAll('#forecast-info .info');
+    forecastRows.forEach((row, index) => {
+        const tempElement = row.querySelector('.right .more-info:last-child');
+        const dayData = storedWeatherData.forecastDays[index];
+        
+        if (currentUnit === "C") {
+            const maxC = ((dayData.tempmax - 32) * 5/9).toFixed(0);
+            const minC = ((dayData.tempmin - 32) * 5/9).toFixed(0);
+            tempElement.textContent = `${maxC}°C / ${minC}°C`;
+        } else {
+            tempElement.textContent = `${Math.round(dayData.tempmax)}°F / ${Math.round(dayData.tempmin)}°F`;
+        }
+    });
 });
 
 function processWeatherData(data) {
@@ -100,6 +112,7 @@ function processWeatherData(data) {
         wind: wind,
         pressure: pressure,
         uvIndex: uvindex,
+        forecastDays: data.days.slice(0, 6)
     };
 }
 
@@ -123,6 +136,7 @@ async function getWeatherData(location) {
             header.innerHTML="";
             highLow.innerHTML="";
             extraInfo.innerHTML="";
+            forecastInfo.innerHTML="";
 
             // Hide loading state, show weather content
             loadingState.style.display = "none";
@@ -175,6 +189,35 @@ async function getWeatherData(location) {
             lowTemp.textContent = `L:${weatherData.lowTemp}°F`;
             description.textContent = `${weatherData.description}`;
 
+            // Create forecast for 6 days
+            for (let i = 0; i < 6; i++) {
+                const dayData = data.days[i];
+                const dayInfo = document.createElement("div");
+                const dayLabel = document.createElement("p");
+                const dayWeatherContainer = document.createElement("div");
+                const dayIcon = document.createElement("p");
+                const dayTemps = document.createElement("p");
+                
+                const dayName = getDayName(dayData.datetime, i);
+                const dayEmoji = iconMap[dayData.icon] || "🌤️";
+                
+                dayLabel.textContent = dayName;
+                dayIcon.textContent = dayEmoji;
+                dayTemps.textContent = `${Math.round(dayData.tempmax)}°F / ${Math.round(dayData.tempmin)}°F`;
+                
+                // Styling
+                dayInfo.classList.add("info");
+                dayLabel.classList.add("more-info");
+                dayIcon.classList.add("more-info");
+                dayTemps.classList.add("more-info");
+                dayWeatherContainer.classList.add("right");
+                
+                dayWeatherContainer.append(dayIcon, dayTemps);
+                dayInfo.append(dayLabel, dayWeatherContainer);
+                forecastInfo.append(dayInfo);
+            }
+
+
             //styling
             temp.classList.add("h1")
             location.classList.add("h2")
@@ -201,7 +244,8 @@ async function getWeatherData(location) {
             highLow.append(highTemp, lowTemp);
             header.append(icon, location, temp, conditions, highLow, description);
             extraInfo.append(humidityInfo, windInfo, pressureInfo, uvIndexInfo);
-            content.append(header, extraInfo);
+            center.append(extraInfo, forecastInfo);
+            content.append(header, center);
         }
         
         // add background img based on current weather
@@ -240,7 +284,7 @@ if (navigator.geolocation) {
         },
         function(error) {
             console.log("Location denied, using default");
-            getWeatherData("London");
+            getWeatherData("Lagos");
         }
     );
 }
@@ -260,4 +304,14 @@ async function getPlaceName(lat, lon) {
         console.error("Reverse geocoding failed:", error);
         return "Current Location"; 
     }
+}
+
+//Get a human friendly date label
+function getDayName(dateString, index) {
+    if (index === 0) return "Today";
+    if (index === 1) return "Tomorrow";
+    
+    const date = new Date(dateString);
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    return days[date.getDay()];
 }

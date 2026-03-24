@@ -82,6 +82,12 @@ input:valid {
     color: rgb(255, 255, 255, 0.7);
 }
 
+#top {
+    display: flex;
+    gap: 12px;
+    flex-grow: 1;
+}
+
 #header {
     display: flex;
     align-items: center;
@@ -118,7 +124,21 @@ p.icon {
     font-size: 50px;
 }
 
+p.small {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(255, 255, 255, 0.6);
+}
+
 p {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(255, 255, 255, 0.8);
+    max-width: 280px;
+    text-align: center;
+}
+
+p.more-info {
     font-size: 16px;
     font-weight: 400;
     color: rgb(255, 255, 255, 0.7);
@@ -126,12 +146,9 @@ p {
     text-align: center;
 }
 
-p.info {
-    font-size: 16px;
-    font-weight: 400;
-    color: rgb(255, 255, 255, 0.6);
-    max-width: 280px;
-    text-align: center;
+#center {
+    display: flex;
+    gap: 16px;
 }
 
 #extra-info {
@@ -145,13 +162,90 @@ p.info {
     gap: 16px;
 }
 
+#forecast-info {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 16px;
+    gap: 16px;
+}
+
+.forecast-day {
+    width: 240px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
 .info {
     width: 240px;
     display: flex;
-    /* padding: 12px; */
     justify-content: space-between;
-    /* background-color: rgb(255, 255, 255, 0.10);
-    border-color: rgba(255, 255, 255, 0.10);
-    border-radius: 8px;
-    backdrop-filter: blur(8px); */
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+#toggle {
+    width: 80px; 
+    height: 40px; 
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#toggle::before {
+    content: '';
+    width: 32px; 
+    height: 32px; 
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) translateX(-20px); 
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+#toggle::after {
+    content: '°C';
+    position: absolute;
+    right: 16px; 
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px; 
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+#toggle.celsius::before {
+    transform: translate(-50%, -50%) translateX(20px); 
+}
+
+#toggle.celsius::after {
+    content: '°F';
+    right: auto;
+    left: 16px; 
+    top: 50%;
+    transform: translateY(-50%);
 }

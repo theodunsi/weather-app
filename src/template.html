@@ -8,9 +8,12 @@
 
 </head>
 <body>
-    <form id="weather-form">
-        <input id="search" type="search" placeholder="Search Your City...">
-    </form>
+    <div id="top"> 
+        <form id="weather-form">
+            <input id="search" type="search" placeholder="Search Your City...">
+        </form>
+        <button id="toggle" aria-pressed="false" style="display: none;"> </button>
+    </div>
 
     <div id="loading-state">
         <p class="h1">--</p>
@@ -21,9 +24,10 @@
             <div id="high-low"> </div>
         </div>
 
-        <div id="extra-info"> </div>
+        <div id="center">
+            <div id="forecast-info"> </div>
+            <div id="extra-info"> </div>
+        </div>
     </div>
-
-    <button id="toggle" aria-pressed="false" style="display: none;"> Toggle </button>
 </body>
 </html>
